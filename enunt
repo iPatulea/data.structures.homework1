@@ -1,0 +1,145 @@
+Introducere
+
+Pentru a mări siguranța la un centru de colectare a pachetelelor, serviciul de securitate din cadrul poștei are nevoie de o metodă pentru a putea afla exact ce pachete sunt primite și în ce ordine.
+
+Dupa ce s-au alocat bani de la buget si s-au consultat numeroși specialiști în probleme de securitate, s-a ajuns la concluzia că cea mai buna soluție este supravegherea permanentă a fluxului de persoane.
+
+Intrucat un sistem informatic bazat pe supraveghere video este mult prea costisitor din punct de vedere al resurselor umane și materiale, s-a propus realizarea unui simulator de procesare a pachetelor care să functioneze cu date strânse periodic de la fiecare ghișeu.
+
+Cum cea mai ieftină si bună mână de lucru se găsește printre studenții de la Politehnică, departamentul de securitate a decis să vă angajeze pe voi pentru realizarea simulatorului.
+
+Cerință
+
+Trebuie să implmentați un simulator simplu al activității din centrul de colectare a pachetelor.
+
+Specificații
+
+In sala de colectare se găsesc Persoane și Ghișee de colectare:
+
+Persoane:
+Fiecare individ are un PERSONAL_ID unic
+Fiecare persoană vrea să depună exact un pachet, pachetul cântărind o anumită greutate (PACKAGE_WEIGHT)
+Pentru a-și depune pachetul, oamenii se așează la coada unui ghișeu
+Ghișee:
+Sala are N ghișee fiecare cu un WINDOW_ID unic
+Fiecare ghișeu are în fața sa o coadă formată din oameni ce vor să își depună pachetul
+Fiecare ghișeu acceptă pachete cu greutatea între WEIGHT_MIN și WEIGHT_MAX
+Dacă greutatea pachetului primei persoane din coadă nu se află între WEIGHT_MIN si WEIGHT_MAX se refuză preluarea pachetului și persoana se mută la altă coadă
+Se garantează că nu există oameni cu pachete ce nu pot fi primite la nici un ghișeu (prea grele sau prea ușoare)
+Fiecare ghișeu are o stivă de pachete colectate
+In momentul în care se procesează un pachet și el este acceptat, pachetul se pune în stiva ghișeului respectiv
+Stiva poate ține maxim Q elemente si maxim K grame
+Dacă se depășesc Q elemente sau K grame, stiva este golită și conținutul ei este trimis spre livrare
+Atentie! Daca un pachet nu poate fi adǎugat deoarece stiva nu îl suportă, stiva va fi golită, iar apoi pachetul va fi introdus în stiva goalǎ.
+Un ghișeu poate procesa persoanele doar în ordinea în care se află la coadă.
+Procesarea unei persoane implică verificarea greutății pachetului (dacă este acceptat sau respins) și eliminarea acesteia din coadă. Dacă pachetul este acceptat persoana este fericită și pleacă acasă. Dacă nu, se duce la coada cu urmatorul ID.
+
+Precizări de implementare
+
+PERSONAL_ID este un număr întreg
+WINDOW_ID este un număr întreg între 0 și N-1
+WEIGHT_MIN, WEIGHT_MAX, K și Q sunt numere întregi
+Dacă persoanei care stă la ghișeul WINDOW_ID i se refuză pachetul, aceasta va fi trimisă la primul ghișeu deschis după ghișeul cu id-ul WINDOW_ID
+Dacă nu există nici un ghișeu deschis între WINDOW_ID și N, persoana se va muta la prima coadă deschisă
+Puteti pleca in rezolvarea temei de la implementarile generice de cozi si stive din laborator
+Input
+
+Simulatorul vostru va primi comenzi prin intermediul unui fișier dat ca parametru din linia de comandă.
+
+Formatul fișierului de intrare:
+
+N
+<comanda> <args>
+<comanda> <args>
+.
+.
+.
+<comanda> <args>
+Comenzi posibile:
+
+OPEN_WINDOW <WINDOW_ID> <WEIGHT_MIN> <WEIGHT_MAX> <Q> <K>
+Adaugă un nou ghișeu
+WINDOW_ID - id-ul ghișeului care se deschide
+WEIGHT_MIN - Greutatea minimă acceptată
+WEIGHT_MAX - Greutatea maximă acceptată
+Q - Numǎrul maxim de pachete care pot intra în stivǎ
+K - Greutatea maximǎ pe care o suportǎ stiva
+ADD_PERSON <PERSONAL_ID> <PACKAGE_WEIGHT> <WINDOW_ID>
+Adaugă persoana la coada specificată
+PERSONAL_ID - id-ul persoanei care se așează la coadă
+PACKAGE_WEIGHT - greutatea pachetului
+WINDOW_ID - ghișeul la care se așează
+PROCESS <WINDOW_ID> <N_PEOPLE>
+Ghișeul WINDOW_ID procesează un număr de N_PEOPLE persoane
+PROCESS_ALL <WINDOW_ID>
+Ghișeul WINDOW_ID procesează toate persoanele aflate la propria coadă
+PRINT_STACKS
+Afișează la ieșirea standard starea tuturor stivelor în ordinea id-urilor ghișeelor:
+Pe fiecare line se vor afișa pachetele în ordinea corespunzǎtoare stivelor (se afișeazǎ întâi ultimul pachet introdus)
+
+STACKS:
+<WINDOW_ID>: <PACKAGE_WEIGHT>, ...
+<WINDOW_ID>: <PACKAGE_WEIGHT>, ...
+.
+.
+.
+FLUSH_STACKS
+Toate ghișeele eliberează stiva proprie de pachete și le afișează în ordine(LIFO) la ieșirea standard:
+
+FLUSHING:
+<WINDOW_ID>: <PACKAGE_WEIGHT>, ...
+<WINDOW_ID>: <PACKAGE_WEIGHT>, ...
+PRINT_QUEUES:
+Afiseaza la iesirea standard starea cozilor din fata tuturor ghișeelor:
+QUEUES:
+<WINDOW_ID>: (<PERSONAL_ID>, <PACKAGE_WEIGHT>), ...
+<WINDOW_ID>: (<PERSONAL_ID>, <PACKAGE_WEIGHT>), ...
+Output
+
+Afișarea se va face la stdout conform precizărilor din descrierea comenzilor PRINT_QUEUES, FLUSH_STACKS și PRINT_STACKS.
+
+Exemplu
+
+Input
+10
+OPEN_WINDOW 0 200 500 2 500
+ADD_PERSON 100 250 0
+ADD_PERSON 101 650 0
+ADD_PERSON 102 300 0
+ADD_PERSON 103 550 0
+ 
+PRINT_QUEUES
+ 
+OPEN_WINDOW 4 450 1000 3 5000
+ADD_PERSON 110 800 4
+ 
+PROCESS 0 2
+PRINT_QUEUES
+ 
+PROCESS_ALL 0
+PRINT_STACKS
+ 
+PROCESS_ALL 4
+PRINT_STACKS
+ 
+FLUSH_STACKS
+PRINT_STACKS
+Output
+QUEUES:
+0: (100, 250), (101, 650), (102, 300), (103, 550)
+QUEUES:
+0: (102, 300), (103, 550)
+4: (110, 800), (101, 650)
+STACKS:
+0: 300
+4:
+STACKS:
+0: 300
+4: 550, 650, 800
+FLUSHING:
+0: 300
+4: 550, 650, 800
+STACKS:
+0: 
+4: 
+

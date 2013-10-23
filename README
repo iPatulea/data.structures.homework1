@@ -1,0 +1,41 @@
+Ionut Patulea
+313CA
+README pentru tema1, Structuri de date:
+
+	Cerinta a fost foarte interesant si placuta, foarte aptoape de realitate si de aceea am si reusit sa dezvolt un cod foarte clar in care se pot
+distinge cu usurinta toate functiile problemei. Pentru a avea un aspect realist am creat o clasa "posta" in care se afla metodele pentru fiecare 
+comanda primita. Folosesc un vector de cozi care reprezinta coada de al fiecare ghiseu, adica ghiseul x are coada q[x], un vector de stive care re-
+prezinta stiva de pachete pentru fiecare ghiseu (stiva lui x este s[x]), plus un vector de n(numarul de ghisee) linii si 6 coloane in care retin 
+pentru fiecare ghiseu datele specifice: v[x][0]="greutatea acceptata minima"; v[x][1]="greutatea acceptata maxima"; v[x][2]="numarul maxim de pa-
+chete"; v[x][3]="greutatea totala maxima"; v[x][4]="numarul de pachete acceptate curent"; v[x][5]="greutatea totala cutenta". Descrierea functii-
+lor este urmatoarea:
+
+	1. posta:
+		Se aloca memorie pentru numarul de ghisee trensmis si se initializeaza cu -1 primul element din fiecare coada pentru a sti ca este inchis.
+
+	2. OPEN_WINDOW:
+		Il scot pe -1 din coada si initializez linia matricii ghiseului rezectiv cu datele transmise.
+
+	3. ADD_PERSON:
+		Adaug in goada ghiseului transmis id-ul pensoanei si grautatea pacheului ei.
+
+	4. PROCESS:
+		Intr-un for care tine evidenta persoanelor procesate, verific daca persoana se incadreaza in limitele ghiseului, dupa care sunt 2 posibili-
+tati, fie este loc in stiva si persoana este adaugata (daca nu este atins numatul maxim de persoane), fie golsesc stiva si o adaug. Daca nu se inca-
+dreaza in limite adaug persoana la prima coada deschisa la alt ghiseu.
+
+	5. PROCESS_ALL:
+		Practic acelasi lucru ca functia "PROCESS" doar ca se proceseaza pana la terminarea cozii ghiseului.
+
+	6. PRINT_STACKS:
+		Pentru fiecare ghiseu deschis scot din stiva afisez si adaug intr-o stiva auxiliara, dupa care le pun la loc din stiva auxiliara in stiva 
+ghiseului.
+	
+	7. FLUSH_STACKS:
+		Acelasi lucru ca functia PRINT_STACKS doar ca nu mai retin nimic in stiva auxiliara.
+
+	8. PRINT_QUEUES:
+		Acelasi lucru ca functia PRINT_STACKS doar ca de data asta sunt cozile ghiseelor si pun fiacare coada intr-o coada auxiliara afisez si 
+pun la loc.
+
+	Functia main citeste fiacare comanda, o compara cu toate comenzile posibile, dupa care apeleaza clasa posta.
